@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - MediQuick</title>
+    
+    <style>
+        /* ==========================================
+            Global Styles & Reset
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Navbar Styles */
+        .main-header {
+            background-color: #0b0f19;
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #38bdf8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .search-bar-small {
+            display: flex;
+            align-items: center;
+            background: #060b13;
+            border: 1px solid #1e293b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            width: 180px;
+        }
+
+        .search-bar-small input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .cart-icon-wrap {
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .btn-login, .btn-register {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+        }
+
+        .btn-register {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        /* Page Title Banner */
+        .page-title-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .page-title-banner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .page-title-banner p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        /* Contact Section Grid */
+        .contact-section {
+            padding: 60px 20px;
+            flex: 1;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* Contact Info Box */
+        .contact-info {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .contact-info h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .contact-info p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .info-item {
+            margin-bottom: 18px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* Contact Form Card */
+        .contact-form-card {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        .contact-form-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+        }
+
+        .input-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .input-field input, 
+        .input-field textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-field input:focus, 
+        .input-field textarea:focus {
+            border-color: #38bdf8;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #0b0f19;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .footer-col p, .footer-col li, .footer-col a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            list-style: none;
+            margin-bottom: 8px;
+        }
+
+        .footer-col ul {
+            padding: 0;
+        }
+
+        .footer-col a:hover {
+            color: #38bdf8;
+        }
+
+        .footer-contact-group {
+            margin-bottom: 15px;
+        }
+
+        .footer-contact {
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links, .search-bar-small {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container navbar">
+            
+            <!-- Logo Section -->
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px;">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#2563eb"/>
+                    <path d="M4 12h3.2l1.3-2.5 2 5 2.2-6 1.8 3.5h5.5" stroke="#060b13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2 style="margin: 0; font-size: 1.5rem;">MediQuick</h2>
+            </a>
+
+            <!-- Nav Links Section -->
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html">Consult Doctor</a></li>
+                    <li><a href="contact.html" class="active">Contact Us</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Actions Section -->
+            <div class="header-actions">
+                <div class="search-bar-small">
+                    <span class="search-icon" style="margin-right: 5px;">🔍</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <a href="cart.html" class="cart-icon-wrap">
+                    🛒 <span class="cart-badge">0</span>
+                </a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title Banner -->
+    <section class="page-title-banner">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>We're here to help you with your healthcare needs</p>
+        </div>
+    </section>
+
+    <!-- Contact Form & Details Section -->
+    <section class="contact-section container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <p>Have questions about your order or prescription? Reach out to us anytime!</p>
+                <div class="info-item">
+                    <span>📍</span> <div><strong>Address:</strong> No. 45/1, Kandy Road, Kurunegala 60000, Sri Lanka</div>
+                </div>
+                <div class="info-item">
+                    <span>📞</span> <div><strong>Phone:</strong> 0752837456 / 087435345</div>
+                </div>
+                <div class="info-item">
+                    <span>✉️</span> <div><strong>Email:</strong> support@mediquick.com</div>
+                </div>
+                <div class="info-item">
+                    <span>⏰</span> <div><strong>Working Hours:</strong> 24/7 Online Support</div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-card">
+                <h2>Send Us a Message</h2>
+                <form id="contactForm">
+                    <div class="input-field">
+                        <label for="contact-name">Your Name</label>
+                        <input type="text" id="contact-name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="contact-email">Your Email</label>
+                        <input type="email" id="contact-email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="contact-subject">Subject</label>
+                        <input type="text" id="contact-subject" placeholder="Subject" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" rows="4" placeholder="How can we help?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>MediQuick</h3>
+                <p>Your trusted online pharmacy partner. Delivering health and happiness to your doorstep.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog.html">Health Blog</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="track-order.html">Order Tracking</a></li>
+                    <li><a href="returns.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact & Locations</h4>
+                <div class="footer-contact-group">
+                    <p><strong>Registered Office:</strong></p>
+                    <p>MediQuick Pharmacy (Pvt) Ltd<br>
+                    No. 45/1, Kandy Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <div class="footer-contact-group">
+                    <p><strong>Distribution Hub:</strong></p>
+                    <p>No. 78, Dambulla Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <ul class="footer-contact">
+                    <li><span>📞</span> 0752837456 / 087435345</li>
+                    <li><span>✉️</span> support@mediquick.com</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Contact Form Submission -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contactForm');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('contact-name').value.trim();
+                    const email = document.getElementById('contact-email').value.trim();
+                    const subject = document.getElementById('contact-subject').value.trim();
+                    const message = document.getElementById('contact-message').value.trim();
+
+                    // If necessary, the message can be saved in LocalStorage here.
+                    let messages = JSON.parse(localStorage.getItem('mediquick_messages')) || [];
+                    messages.push({ name, email, subject, message, date: new Date().toISOString() });
+                    localStorage.setItem('mediquick_messages', JSON.stringify(messages));
+
+                    alert('Thank you! We have successfully received your message. We will contact you soon..');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

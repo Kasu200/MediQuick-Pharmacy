@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - MediQuick</title>
+    <style>
+        /* ==========================================
+            FAQ Global & Layout Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            background-color: #0b0f19;
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #38bdf8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cart-icon {
+            background: #1e293b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #334155;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            border-color: #38bdf8;
+        }
+
+        /* Page Title Banner */
+        .page-title-banner {
+            background: linear-gradient(135deg, #0b0f19 0%, #1e293b 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .page-title-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .page-title-banner p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Content Section */
+        .about-section {
+            padding: 60px 20px;
+            flex: 1;
+        }
+
+        .about-text {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+
+        .about-text h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .about-text h3 {
+            font-size: 1.2rem;
+            color: #38bdf8;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .about-text p {
+            color: #94a3b8;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #0b0f19;
+            border-top: 1px solid #1e293b;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .main-footer p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">Medi<span>Quick</span></a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About Us</a>
+                <a href="faq.html" class="active">FAQ</a>
+                <a href="contact.html">Contact Us</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon">🛒 Cart</a>
+                <a href="login.html" class="btn-secondary">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title Banner -->
+    <section class="page-title-banner">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find quick answers to common questions about MediQuick services.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="about-section container">
+        <div class="about-text">
+            <h2>General Questions</h2>
+            
+            <h3>How do I order prescription medicines?</h3>
+            <p>You can upload your prescription image through our <strong>Prescription Upload Page</strong>. Our registered pharmacists will review it and process your order[cite: 10].</p>
+
+            <h3>How long does delivery take?</h3>
+            <p>Standard delivery takes within 24 to 48 hours depending on your location. Express same-day delivery is available for selected areas[cite: 10].</p>
+
+            <h3>What payment methods are accepted?</h3>
+            <p>We accept Visa, Mastercard, and Cash on Delivery (COD)[cite: 10].</p>
+
+            <h3>Can I return medicine if it's damaged?</h3>
+            <p>Yes, please refer to our Returns & Refunds policy page for details on eligible items and return procedures[cite: 10].</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 MediQuick. All rights reserved[cite: 10].</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

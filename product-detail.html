@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MediQuick - Product Details">
+    <title>Product Details - MediQuick</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #080d1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .main-header {
+            background-color: #0b1120;
+            border-bottom: 1px solid #1e293b;
+            padding: 16px 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon-wrap {
+            position: relative;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* Product Detail Section */
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 50px 0;
+            background: #040814;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .product-image-box img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #111827;
+        }
+
+        .product-info-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge-rx {
+            display: inline-block;
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+
+        .prod-category {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .prod-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .prod-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 20px;
+        }
+
+        .prod-description {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-add-cart {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex: 1;
+        }
+
+        .btn-add-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-back {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #334155;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: #334155;
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1e293b;
+            padding: 40px 0;
+            background: #040814;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#2563eb" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    <path fill="none" stroke="#080d1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12h4l2-3 3 6 2-4h4"/>
+                </svg>
+                MediQuick
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html">Consult Doctor</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon-wrap" title="View Cart">
+                    🛒 <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="productMainContainer">
+        <!-- Dynamic Product Details will load here -->
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 MediQuick Pharmacy (Pvt) Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript to load product details based on URL ID -->
+    <script>
+        const allProducts = [
+            {
+                id: 1,
+                name: "Advanced Multivitamin Daily Supplement",
+                price: 2450,
+                category: "vitamins",
+                categoryText: "Health & Wellness",
+                image: "imagesmultivitamin.jpeg",
+                rx: true,
+                description: "Complete daily nutritional support containing essential vitamins, minerals, and powerful antioxidants to boost your daily immunity, energy levels, and overall wellness."
+            },
+            {
+                id: 2,
+                name: "Vitamin C 1000mg Immune Support",
+                price: 1200,
+                category: "vitamins",
+                categoryText: "Vitamins",
+                image: "Vitamin C.jpg",
+                rx: false,
+                description: "High potency Vitamin C tablets formulated to enhance immune function, promote collagen production, and protect cells from oxidative stress."
+            },
+            {
+                id: 3,
+                name: "Omega-3 Triple Strength Fish Oil",
+                price: 3100,
+                category: "vitamins",
+                categoryText: "Supplements",
+                image: "imagesfish-oil.jpe",
+                rx: false,
+                description: "Pure and molecularly distilled fish oil capsules rich in EPA and DHA to support healthy heart function, brain health, and joint mobility."
+            },
+            {
+                id: 4,
+                name: "Paracetamol Extra 500mg Tablets",
+                price: 450,
+                category: "medicines",
+                categoryText: "First Aid",
+                image: "paracitamol.jpeg",
+                rx: true,
+                description: "Effective relief from mild to moderate pain including headaches, toothaches, muscular aches, and helps reduce fever symptoms."
+            },
+            {
+                id: 5,
+                name: "Gentle Daily Facial Cleanser",
+                price: 1850,
+                category: "personal care",
+                categoryText: "Personal Care",
+                image: "Gentle Daily Facial Cleanse.jpg",
+                rx: false,
+                description: "Soap-free facial cleanser designed to gently remove impurities and excess oil without stripping your skin's natural moisture barrier."
+            },
+            {
+                id: 6,
+                name: "Baby Gentle Moisturizing Lotion",
+                price: 1400,
+                category: "baby care",
+                categoryText: "Baby Care",
+                image: "imagesbaby-lotion.png",
+                rx: false,
+                description: "Hypoallergenic and pediatrician-tested moisturizing lotion specially formulated to nourish, protect, and soothe delicate baby skin."
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+
+            const container = document.getElementById('productMainContainer');
+
+            if (!productId) {
+                container.innerHTML = `<div class="not-found">No item selected. <br><br><a href="shop.html" class="btn-back" style="display:inline-block;">Shop වෙත යන්න</a></div>`;
+                return;
+            }
+
+            const product = allProducts.find(p => p.id === productId);
+
+            if (!product) {
+                container.innerHTML = `<div class="not-found">The relevant item was not found. <br><br><a href="shop.html" class="btn-back" style="display:inline-block;">Shop වෙත යන්න</a></div>`;
+                return;
+            }
+
+            let rxBadge = product.rx ? `<span class="badge-rx">Rx Required (Medical recommendation required.)</span>` : '';
+            let formattedPrice = 'Rs. ' + product.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            container.innerHTML = `
+                <div class="product-detail-container">
+                    <div class="product-image-box">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info-box">
+                        ${rxBadge}
+                        <div class="prod-category">${product.categoryText}</div>
+                        <h1 class="prod-title">${product.name}</h1>
+                        <div class="prod-price">${formattedPrice}</div>
+                        <p class="prod-description">${product.description}</p>
+                        <div class="action-btns">
+                            <button class="btn-add-cart" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})">Add to Cart</button>
+                            <a href="shop.html" class="btn-back">Back to Shop</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        function updateCartBadge() {
+            const cartBadge = document.getElementById('cartBadge');
+            const cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            if (cartBadge) {
+                cartBadge.textContent = totalQty;
+            }
+        }
+
+        function addToCart(id, name, price) {
+            let cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const index = cart.findIndex(item => item.id === id);
+            
+            if(index > -1) {
+                cart[index].qty += 1;
+            } else {
+                cart.push({ id, name, price, qty: 1 });
+            }
+
+            localStorage.setItem('mediquick_cart', JSON.stringify(cart));
+            updateCartBadge();
+            alert(name + " added to cart!");
+        }
+    </script>
+</body>
+</html>

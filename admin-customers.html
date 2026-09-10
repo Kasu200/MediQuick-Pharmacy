@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management - MediQuick Admin</title>
+    <style>
+        /* ==========================================
+            Admin Dashboard Global & Sidebar Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.admin-body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background-color: #0b0f19;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            padding: 25px 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-brand span {
+            color: #38bdf8;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 15px 10px;
+        }
+
+        .admin-nav li {
+            margin-bottom: 5px;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 12px 15px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+
+        .admin-logout {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .admin-logout a {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            background-color: #0d1527;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .admin-user-profile span {
+            background: #1e293b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+
+        /* Filter Bar */
+        .admin-filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-input, .admin-select {
+            padding: 10px 15px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .admin-input {
+            flex: 1;
+        }
+
+        .admin-input:focus, .admin-select:focus {
+            border-color: #38bdf8;
+        }
+
+        /* Table Card */
+        .admin-card {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            color: #94a3b8;
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-blocked {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn.block {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .action-btn.unblock {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .action-btn:hover {
+            opacity: 0.85;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Admin Sidebar[cite: 6] -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>MediQuick <span>Admin</span></h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="admin-orders.html">📦 Orders</a></li>
+                    <li><a href="admin-inventory.html">💊 Inventory</a></li>
+                    <li><a href="admin-prescriptions.html">📄 Prescriptions</a></li>
+                    <li><a href="admin-consultations.html">🩺 Doctor Consultations</a></li>
+                    <li><a href="admin-customers.html" class="active">👥 Customers</a></li>
+                    <li><a href="admin-staff.html">👨‍⚕️ Staff</a></li>
+                    <li><a href="admin-settings.html">⚙️ Settings</a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="login.html">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content[cite: 6] -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Customer Management</h1>
+                <div class="admin-user-profile">
+                    <span>Admin Panel</span>
+                </div>
+            </header>
+
+            <div class="admin-filter-bar">
+                <input type="text" id="customerSearch" placeholder="Search by name, email or phone..." class="admin-input" oninput="filterCustomers()">
+                <select id="customerStatusFilter" class="admin-select" onchange="filterCustomers()">
+                    <option value="all">All Customers</option>
+                    <option value="Active">Active</option>
+                    <option value="Blocked">Blocked / Inactive</option>
+                </select>
+            </div>
+
+            <div class="admin-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminCustomerTableBody">
+                        <!-- Added dynamically via JS.[cite: 6] -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for Dynamic Customer Management -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCustomers();
+        });
+
+        function getAllCustomers() {
+            let users = JSON.parse(localStorage.getItem('mediquick_users')) || [];
+            const singleUser = JSON.parse(localStorage.getItem('mediquick_user'));
+            if (singleUser && !users.some(u => u.email === singleUser.email)) {
+                users.push(singleUser);
+            }
+            return users;
+        }
+
+        function loadCustomers() {
+            const users = getAllCustomers();
+            renderTable(users);
+        }
+
+        function renderTable(usersList) {
+            const tbody = document.getElementById('adminCustomerTableBody');
+            tbody.innerHTML = '';
+
+            if (usersList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="no-data">There are no registered customers.</td></tr>`;
+                return;
+            }
+
+            usersList.forEach((user, index) => {
+                //Setting the default status to 'Active' (if the status property is missing)
+                const status = user.status || 'Active';
+                const statusBadge = status === 'Active' 
+                    ? `<span class="badge-active">Active</span>` 
+                    : `<span class="badge-blocked">Blocked</span>`;
+                
+                const actionBtn = status === 'Active'
+                    ? `<button class="action-btn block" onclick="toggleUserStatus('${user.email}')">Block</button>`
+                    : `<button class="action-btn unblock" onclick="toggleUserStatus('${user.email}')">Unblock</button>`;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#MQ-${1000 + index}</td>
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email || 'N/A'}</td>
+                    <td>${user.phone || 'N/A'}</td>
+                    <td>${statusBadge}</td>
+                    <td>${actionBtn}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterCustomers() {
+            const searchQuery = document.getElementById('customerSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('customerStatusFilter').value;
+            const users = getAllCustomers();
+
+            const filtered = users.filter(user => {
+                const name = (user.name || '').toLowerCase();
+                const email = (user.email || '').toLowerCase();
+                const phone = (user.phone || '').toLowerCase();
+                const status = user.status || 'Active';
+
+                const matchesSearch = name.includes(searchQuery) || email.includes(searchQuery) || phone.includes(searchQuery);
+                const matchesStatus = (statusFilter === 'all') || (status === statusFilter);
+
+                return matchesSearch && matchesStatus;
+            });
+
+            renderTable(filtered);
+        }
+
+        function toggleUserStatus(email) {
+            let users = JSON.parse(localStorage.getItem('mediquick_users')) || [];
+            
+            users = users.map(u => {
+                if (u.email === email) {
+                    u.status = (u.status === 'Blocked') ? 'Active' : 'Blocked';
+                }
+                return u;
+            });
+
+            localStorage.setItem('mediquick_users', JSON.stringify(users));
+
+            // Updating the singleUser as well
+            let singleUser = JSON.parse(localStorage.getItem('mediquick_user'));
+            if (singleUser && singleUser.email === email) {
+                singleUser.status = (singleUser.status === 'Blocked') ? 'Active' : 'Blocked';
+                localStorage.setItem('mediquick_user', JSON.stringify(singleUser));
+            }
+
+            loadCustomers();
+            filterCustomers();
+        }
+    </script>
+</body>
+</html>

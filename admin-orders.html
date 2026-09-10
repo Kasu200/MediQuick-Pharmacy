@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management - MediQuick Admin</title>
+    <style>
+        /* ==========================================
+            Admin Orders Global & Layout Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.admin-body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background-color: #0b0f19;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            padding: 25px 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-brand span {
+            color: #38bdf8;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 15px 10px;
+        }
+
+        .admin-nav li {
+            margin-bottom: 5px;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 12px 15px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+
+        .admin-logout {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .admin-logout a {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            background-color: #0d1527;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .admin-user-profile span {
+            background: #1e293b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+
+        /* Filter & Search Bar */
+        .admin-filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-input, .admin-select {
+            padding: 10px 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .admin-input {
+            flex: 1;
+        }
+
+        .admin-input:focus, .admin-select:focus {
+            border-color: #38bdf8;
+        }
+
+        /* Table Card */
+        .admin-card {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            color: #94a3b8;
+        }
+
+        /* Status Badges & Action Select */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .status-processing { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .status-delivered { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .status-select {
+            background: #0f172a;
+            color: #fff;
+            border: 1px solid #334155;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Admin Sidebar[cite: 8] -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>MediQuick <span>Admin</span></h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="admin-orders.html" class="active">📦 Orders</a></li>
+                    <li><a href="admin-inventory.html">💊 Inventory</a></li>
+                    <li><a href="admin-prescriptions.html">📄 Prescriptions</a></li>
+                    <li><a href="admin-consultations.html">🩺 Doctor Consultations</a></li>
+                    <li><a href="admin-customers.html">👥 Customers</a></li>
+                    <li><a href="admin-staff.html">👨‍⚕️ Staff</a></li>
+                    <li><a href="admin-settings.html">⚙️ Settings</a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="login.html">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content[cite: 8] -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Orders Management</h1>
+                <div class="admin-user-profile">
+                    <span>Admin Panel</span>
+                </div>
+            </header>
+
+            <!-- Filters & Search[cite: 8] -->
+            <div class="admin-filter-bar">
+                <input type="text" id="orderSearchInput" placeholder="Search by Order ID or Customer Name..." class="admin-input" onkeyup="filterAdminOrders()">
+                <select id="orderStatusFilter" class="admin-select" onchange="filterAdminOrders()">
+                    <option value="all">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <!-- Orders Table Card[cite: 8] -->
+            <div class="admin-card">
+                <table class="admin-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrdersTableBody">
+                        <!-- Orders are added via JavaScript.[cite: 8] -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for Orders Management -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminOrders();
+        });
+
+        function loadAdminOrders() {
+            const orders = JSON.parse(localStorage.getItem('mediquick_orders')) || [];
+            displayOrders(orders);
+        }
+
+        function displayOrders(ordersList) {
+            const tbody = document.getElementById('adminOrdersTableBody');
+            tbody.innerHTML = '';
+
+            if (ordersList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="no-data">No orders were found.</td></tr>`;
+                return;
+            }
+
+            ordersList.forEach((order, originalIndex) => {
+                const orderId = order.id || `#ORD-${1000 + originalIndex}`;
+                const customerName = order.customerName || order.name || 'Guest User';
+                const itemsCount = order.items ? `${order.items.length} Items` : (order.itemCount || '1 Item');
+                const dateStr = order.date ? new Date(order.date).toLocaleDateString() : 'N/A';
+                const totalAmount = parseFloat(order.total || order.amount || 0).toFixed(2);
+                const status = order.status || 'Pending';
+
+                // Selecting the CSS class corresponding to the status
+                let statusClass = 'status-pending';
+                if (status === 'Processing') statusClass = 'status-processing';
+                else if (status === 'Delivered') statusClass = 'status-delivered';
+                else if (status === 'Cancelled') statusClass = 'status-cancelled';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${orderId}</td>
+                    <td>${customerName}</td>
+                    <td>${itemsCount}</td>
+                    <td>${dateStr}</td>
+                    <td>LKR ${totalAmount}</td>
+                    <td><span class="status-badge ${statusClass}">${status}</span></td>
+                    <td>
+                        <select class="status-select" onchange="updateOrderStatus(${originalIndex}, this.value)">
+                            <option value="Pending" ${status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Processing" ${status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Delivered" ${status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Changing an order's status and updating LocalStorage.
+        function updateOrderStatus(index, newStatus) {
+            let orders = JSON.parse(localStorage.getItem('mediquick_orders')) || [];
+            if (orders[index]) {
+                orders[index].status = newStatus;
+                localStorage.setItem('mediquick_orders', JSON.stringify(orders));
+                loadAdminOrders();
+            }
+        }
+
+        // Search & Filter
+        function filterAdminOrders() {
+            const searchQuery = document.getElementById('orderSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('orderStatusFilter').value;
+            const orders = JSON.parse(localStorage.getItem('mediquick_orders')) || [];
+
+            const filtered = orders.filter((order, index) => {
+                const orderId = (order.id || `#ORD-${1000 + index}`).toLowerCase();
+                const customerName = (order.customerName || order.name || '').toLowerCase();
+                const status = order.status || 'Pending';
+
+                const matchesSearch = orderId.includes(searchQuery) || customerName.includes(searchQuery);
+                const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            displayOrders(filtered);
+        }
+    </script>
+</body>
+</html>

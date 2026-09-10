@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Consultations - MediQuick Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.admin-body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background-color: #0b0f19;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            padding: 25px 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-brand span {
+            color: #38bdf8;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 15px 10px;
+        }
+
+        .admin-nav li {
+            margin-bottom: 5px;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 12px 15px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+
+        .admin-logout {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .admin-logout a {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            background-color: #0d1527;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        /* Table Card */
+        .admin-card {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            color: #94a3b8;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .status-confirmed { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+        .btn-action {
+            background: #2563eb;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: #1d4ed8;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <!--Security check: Checks if logged in -->
+    <script>
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+    </script>
+
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>MediQuick <span>Admin</span></h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="admin-orders.html">📦 Orders</a></li>
+                    <li><a href="admin-inventory.html">💊 Inventory</a></li>
+                    <li><a href="admin-prescriptions.html">📄 Prescriptions</a></li>
+                    <li><a href="admin-consultations.html" class="active">🩺 Doctor Consultations</a></li>
+                    <li><a href="admin-customers.html">👥 Customers</a></li>
+                    <li><a href="admin-staff.html">👨‍⚕️ Staff & Admins</a></li>
+                    <li><a href="admin-settings.html">⚙️ Settings</a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="#" onclick="adminLogout(); return false;">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Doctor Consultations</h1>
+            </header>
+
+            <div class="admin-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Patient Name</th>
+                            <th>Phone / Email</th>
+                            <th>Preferred Date/Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="consultationsTableBody">
+                        <!-- Dynamic JS Data -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadConsultations();
+        });
+
+        function loadConsultations() {
+            // Retrieving data for consultations from LocalStorage (which is stored under the consultations key)
+            let consultations = JSON.parse(localStorage.getItem('mediquick_consultations')) || [
+                { id: 'DOC-501', name: 'Kasun Bandara', contact: '0712345678', datetime: '2026-03-15 / 10:00 AM', status: 'Pending' },
+                { id: 'DOC-502', name: 'Nadeesha Senaratne', contact: '0779876543', datetime: '2026-03-16 / 02:30 PM', status: 'Confirmed' }
+            ];
+
+            const tbody = document.getElementById('consultationsTableBody');
+            tbody.innerHTML = '';
+
+            if (consultations.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="no-data">There are no requests for medical advice.</td></tr>`;
+                return;
+            }
+
+            consultations.forEach((item, index) => {
+                let badgeClass = item.status === 'Confirmed' ? 'status-confirmed' : 'status-pending';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id || 'DOC-' + (500 + index)}</td>
+                    <td>${item.name || item.patientName}</td>
+                    <td>${item.contact || item.phone || item.email}</td>
+                    <td>${item.datetime || item.preferredTime || 'N/A'}</td>
+                    <td><span class="status-badge ${badgeClass}">${item.status || 'Pending'}</span></td>
+                    <td>
+                        <button class="btn-action" onclick="toggleStatus(${index})">Toggle Status</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function toggleStatus(index) {
+            let consultations = JSON.parse(localStorage.getItem('mediquick_consultations')) || [];
+            if (consultations[index]) {
+                consultations[index].status = consultations[index].status === 'Confirmed' ? 'Pending' : 'Confirmed';
+                localStorage.setItem('mediquick_consultations', JSON.stringify(consultations));
+                loadConsultations();
+            }
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('isAdminLoggedIn');
+            localStorage.removeItem('userRole');
+            window.location.href = 'admin-login.html';
+        }
+    </script>
+</body>
+</html>

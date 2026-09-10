@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MediQuick</title>
+    
+    <style>
+        /* ==========================================
+            Global Styles & Gradient Background
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            /* රූපයේ ඇති පරිදි ඉහළ සිට පහළට ක්‍රමයෙන් වෙනස් වන Gradient පසුබිම */
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #cbd5e1 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Login Card Container */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+        }
+
+        .auth-card {
+            background: #0b132b;
+            padding: 40px 35px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .auth-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* Input Fields with Icons */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group span {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            background: #ffffff;
+            color: #0f172a;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input::placeholder {
+            color: #64748b;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+        }
+
+        /* Forgot Password */
+        .auth-links {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .forgot-link {
+            color: #38bdf8;
+            font-size: 0.85rem;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Button */
+        .auth-btn {
+            background: #2563eb;
+            color: #ffffff;
+            padding: 14px;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .auth-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Switch to Sign Up */
+        .auth-switch {
+            margin-top: 25px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .auth-switch a {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Admin Link Style */
+        .admin-link-box {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #1e293b;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .admin-link-box a {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .admin-link-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Links at the Bottom */
+        .simple-footer {
+            display: flex;
+            gap: 25px;
+            font-size: 0.8rem;
+            color: #475569;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .simple-footer a {
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .simple-footer a:hover {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Login Container -->
+    <div class="login-wrapper">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Login to your account</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <span>✉️</span>
+                    <input type="text" id="loginEmail" placeholder="Email Address / Mobile" required>
+                </div>
+                
+                <div class="input-group">
+                    <span>🔒</span>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                
+                <div class="auth-links">
+                    <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+
+            <p class="auth-switch">Don't have an account? <a href="register.html">Sign Up</a></p>
+
+            <!-- The Admin Portal link has been added here -->
+            <div class="admin-link-box">
+                Are you an admin/staff? <a href="admin-login.html">Admin Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Footer Links -->
+    <div class="simple-footer">
+        <span>© 2026 MediQuick Healthcare Inc.</span>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="help.html">Help Center</a>
+    </div>
+
+    <!-- JavaScript for Validation & Registration Check Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const inputIdentifier = document.getElementById('loginEmail').value.trim();
+                    const passwordInput = document.getElementById('loginPassword').value;
+
+                    // Retrieving registered user data from LocalStorage
+                    let users = JSON.parse(localStorage.getItem('mediquick_users')) || [];
+                    
+                    const singleUser = JSON.parse(localStorage.getItem('mediquick_user'));
+                    if (singleUser && users.length === 0) {
+                        users.push(singleUser);
+                    }
+
+                    // Checking if the user is registered in the system (via email, phone, or username) [cite: 5]
+                    const foundUser = users.find(user => 
+                        (user.email === inputIdentifier || user.phone === inputIdentifier || user.username === inputIdentifier)
+                    );
+
+                    if (!foundUser) {
+                        //If an account does not exist, notify the user and redirect to register.html [cite: 5]
+                        alert('No account with these details was found. Please register first.');
+                        window.location.href = 'register.html';
+                        return;
+                    }
+
+                    // Checking the password[cite: 5]
+                    if (foundUser.password !== passwordInput) {
+                        alert('An incorrect password has been entered. Please try again.');
+                        return;
+                    }
+
+                    // Successful login[cite: 5]
+                    localStorage.setItem('mediquick_logged_in_user', JSON.stringify(foundUser));
+                    alert('Successfully logged into the account!');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

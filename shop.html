@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MediQuick Shop - Browse our wide range of medicines and wellness products.">
+    <title>Shop - MediQuick</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #080d1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .main-header {
+            background-color: #0b1120;
+            border-bottom: 1px solid #1e293b;
+            padding: 16px 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo with Exact Image Match */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #fff;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar-small {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            width: 220px;
+        }
+
+        .search-bar-small input {
+            border: none;
+            outline: none;
+            font-size: 0.8rem;
+            width: 100%;
+            background: transparent;
+            color: #333;
+        }
+
+        .cart-icon-wrap {
+            position: relative;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        .btn-login {
+            background: #ffffff;
+            color: #000;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-register {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Shop Banner & Filters */
+        .shop-header {
+            margin: 40px 0 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .shop-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: #ffffff;
+            color: #0f172a;
+            border-color: #ffffff;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: #040814;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #64748b;
+        }
+
+        .badge-rx-small {
+            display: inline-block;
+            background: #dc2626;
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            align-self: flex-start;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: #111827;
+        }
+
+        .product-category-text {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-title a:hover {
+            color: #38bdf8;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #ffffff;
+            color: #0f172a;
+            padding: 10px 0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .card-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .card-btn-outline {
+            background: #1e293b;
+            color: #fff;
+            border: 1px solid #334155;
+        }
+
+        .card-btn-outline:hover {
+            background: #334155;
+            color: #fff;
+        }
+
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 30px 0;
+            background: #040814;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr;
+            gap: 40px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col ul li a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Solid Blue Heart -->
+                    <path fill="#2563eb" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    <!-- Dark/Black Pulse Line -->
+                    <path fill="none" stroke="#080d1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12h4l2-3 3 6 2-4h4"/>
+                </svg>
+                MediQuick
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html" class="active">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html">Consult Doctor</a></li>
+                    <li><a href="shop.html">Offers</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-bar-small">
+                    <span>🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search medicines...">
+                </div>
+                <a href="cart.html" class="cart-icon-wrap" title="View Cart">
+                    🛒 <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Shop Header & Categories -->
+        <div class="shop-header">
+            <h1 id="shopPageTitle">All Medicines & Products</h1>
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="medicines">Medicines</button>
+                <button class="filter-btn" data-category="vitamins">Vitamins</button>
+                <button class="filter-btn" data-category="prescription">Prescription</button>
+                <button class="filter-btn" data-category="personal care">Personal Care</button>
+                <button class="filter-btn" data-category="baby care">Baby Care</button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsContainer">
+            <!-- Dynamic Products will load here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h3 style="color:#fff; margin-bottom:10px;">MediQuick</h3>
+                <p>Your trusted online pharmacy partner. Delivering health and happiness to your doorstep.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="track-order.html">Order Tracking</a></li>
+                    <li><a href="returns.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p style="margin-bottom: 8px;"><strong>Registered Office:</strong><br>
+                MediQuick Pharmacy (Pvt) Ltd<br>
+                No. 45/1, Kandy Road, Kurunegala 60000</p>
+                
+                <p style="margin-bottom: 8px;"><strong>Distribution Hub:</strong><br>
+                No. 78, Dambulla Road, Kurunegala 60000</p>
+                
+                <p>📞 0752837456 / 087435345</p>
+                <p>✉️ support@mediquick.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Filter & Cart Logic Script -->
+    <script>
+        const allProducts = [
+            {
+                id: 1,
+                name: "Advanced Multivitamin Daily Supplement",
+                price: 2450,
+                category: "vitamins",
+                categoryText: "Health & Wellness",
+                image: "imagesmultivitamin.jpeg",
+                rx: true
+            },
+            {
+                id: 2,
+                name: "Vitamin C 1000mg Immune Support",
+                price: 1200,
+                category: "vitamins",
+                categoryText: "Vitamins",
+                image: "Vitamin C.jpg",
+                rx: false
+            },
+            {
+                id: 3,
+                name: "Omega-3 Triple Strength Fish Oil",
+                price: 3100,
+                category: "vitamins",
+                categoryText: "Supplements",
+                image: "imagesfish-oil.jpeg",
+                rx: false
+            },
+            {
+                id: 4,
+                name: "Paracetamol Extra 500mg Tablets",
+                price: 450,
+                category: "medicines",
+                categoryText: "First Aid",
+                image: "paracitamol.jpeg",
+                rx: true
+            },
+            {
+                id: 5,
+                name: "Gentle Daily Facial Cleanser",
+                price: 1850,
+                category: "personal care",
+                categoryText: "Personal Care",
+                image: "Gentle Daily Facial Cleanse.jpg",
+                rx: false
+            },
+            {
+                id: 6,
+                name: "Baby Gentle Moisturizing Lotion",
+                price: 1400,
+                category: "baby care",
+                categoryText: "Baby Care",
+                image: "imagesbaby-lotion.png",
+                rx: false
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('category');
+            const searchParam = urlParams.get('search');
+
+            if (categoryParam) {
+                currentCategory = categoryParam.toLowerCase();
+                setActiveFilterButton(currentCategory);
+            }
+
+            if (searchParam) {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = searchParam;
+                }
+            }
+
+            applyFilters();
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-category');
+                    applyFilters();
+                });
+            });
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    applyFilters();
+                });
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        applyFilters();
+                    }
+                });
+            }
+        });
+
+        function setActiveFilterButton(category) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                if (btn.getAttribute('data-category') === category.toLowerCase()) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function applyFilters() {
+            const searchInput = document.getElementById('searchInput');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const titleElem = document.getElementById('shopPageTitle');
+
+            let filtered = allProducts;
+
+            if (currentCategory && currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
+                if (titleElem) {
+                    titleElem.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) + " Products";
+                }
+            } else {
+                if (titleElem) {
+                    titleElem.textContent = "All Medicines & Products";
+                }
+            }
+
+            if (query !== '') {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    p.categoryText.toLowerCase().includes(query)
+                );
+            }
+
+            displayProducts(filtered);
+        }
+
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            if (products.length === 0) {
+                container.innerHTML = `<div class="no-products">No products were found matching this search or category.</div>`;
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                let rxBadgeHtml = product.rx ? `<span class="badge-rx-small">Rx Required</span>` : '';
+                let formattedPrice = 'Rs. ' + product.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                card.innerHTML = `
+                    <div>
+                        ${rxBadgeHtml}
+                        <a href="product-detail.html?id=${product.id}">
+                            <img src="${product.image}" alt="${product.name}" class="product-img">
+                        </a>
+                        <div class="product-category-text">${product.categoryText}</div>
+                        <h3 class="product-title">
+                            <a href="product-detail.html?id=${product.id}">${product.name}</a>
+                        </h3>
+                    </div>
+                    <div>
+                        <div class="product-price">${formattedPrice}</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <a href="product-detail.html?id=${product.id}" class="card-btn card-btn-outline">View Details</a>
+                            <button class="card-btn" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price})">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateCartBadge() {
+            const cartBadge = document.getElementById('cartBadge');
+            const cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            if (cartBadge) {
+                cartBadge.textContent = totalQty;
+            }
+        }
+
+        function addToCart(id, name, price) {
+            let cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const index = cart.findIndex(item => item.id === id);
+            
+            if(index > -1) {
+                cart[index].qty += 1;
+            } else {
+                cart.push({ id, name, price, qty: 1 });
+            }
+
+            localStorage.setItem('mediquick_cart', JSON.stringify(cart));
+            updateCartBadge();
+            alert(name + " added to cart!");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff & Admin Management - MediQuick Admin</title>
+    <style>
+        /* ==========================================
+            Admin Staff Global & Layout Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.admin-body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background-color: #0b0f19;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            padding: 25px 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-brand span {
+            color: #38bdf8;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 15px 10px;
+        }
+
+        .admin-nav li {
+            margin-bottom: 5px;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 12px 15px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+
+        .admin-logout {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .admin-logout a {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            background-color: #0d1527;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Table Card */
+        .admin-card {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            color: #94a3b8;
+        }
+
+        /* Role Badges */
+        .role-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .role-super { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .role-admin { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .role-pharmacist { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .role-inventory { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
+        .status-active {
+            color: #34d399;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 400px;
+            max-width: 90%;
+            border: 1px solid #334155;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+        }
+
+        .admin-input, .admin-select {
+            width: 100%;
+            padding: 10px 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .admin-input:focus, .admin-select:focus {
+            border-color: #38bdf8;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: #475569;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>MediQuick <span>Admin</span></h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="admin-orders.html">📦 Orders</a></li>
+                    <li><a href="admin-inventory.html">💊 Inventory</a></li>
+                    <li><a href="admin-prescriptions.html">📄 Prescriptions</a></li>
+                    <li><a href="admin-consultations.html">🩺 Doctor Consultations</a></li>
+                    <li><a href="admin-customers.html">👥 Customers</a></li>
+                    <li><a href="admin-staff.html" class="active">👨‍⚕️ Staff & Admins</a></li>
+                    <li><a href="admin-settings.html">⚙️ Settings</a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="#" onclick="adminLogout(); return false;">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Staff & Admin Management</h1>
+                <button class="btn-primary" id="btnOpenStaffModal" onclick="openAddStaffModal()">+ Add New Admin / Staff</button>
+            </header>
+
+            <div class="admin-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersTableBody">
+                        <!-- Dynamic data via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Staff / Admin Modal Popup -->
+    <div id="addStaffModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Add New Admin / Staff Member</h3>
+            <form id="addStaffForm" onsubmit="addNewAdminBySuperAdmin(event)">
+                <div class="input-field">
+                    <label>Full Name</label>
+                    <input type="text" id="newAdminName" class="admin-input" required>
+                </div>
+                <div class="input-field">
+                    <label>Email Address</label>
+                    <input type="email" id="newAdminEmail" class="admin-input" required>
+                </div>
+                <div class="input-field">
+                    <label>Password</label>
+                    <input type="password" id="newAdminPassword" class="admin-input" required>
+                </div>
+                <div class="input-field">
+                    <label>Role</label>
+                    <select id="newAdminRole" class="admin-select">
+                        <option value="Admin">Standard Admin</option>
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Pharmacist">Pharmacist</option>
+                        <option value="Inventory Manager">Inventory Manager</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeAddStaffModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Staff & Admin Management -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStaffMembers();
+        });
+
+        // Default staff data (to initialize if not in LocalStorage)
+        function getInitialStaff() {
+            return [
+                { id: '#STF-1001', name: 'Super Admin', role: 'Super Admin', email: 'admin@mediquick.com', status: 'Active' },
+                { id: '#STF-1002', name: 'Dr. Kamal Perera', role: 'Pharmacist', email: 'pharmacist@mediquick.com', status: 'Active' },
+                { id: '#STF-1003', name: 'Nimal Silva', role: 'Inventory Manager', email: 'inventory@mediquick.com', status: 'Active' }
+            ];
+        }
+
+        function loadStaffMembers() {
+            let staff = JSON.parse(localStorage.getItem('mediquick_staff'));
+            if (!staff || staff.length === 0) {
+                staff = getInitialStaff();
+                localStorage.setItem('mediquick_staff', JSON.stringify(staff));
+            }
+            displayStaff(staff);
+        }
+
+        function displayStaff(staffList) {
+            const tbody = document.getElementById('adminUsersTableBody');
+            tbody.innerHTML = '';
+
+            if (staffList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="no-data">There are no staff members.</td></tr>`;
+                return;
+            }
+
+            staffList.forEach((member, index) => {
+                let roleClass = 'role-admin';
+                if (member.role === 'Super Admin') roleClass = 'role-super';
+                else if (member.role === 'Pharmacist') roleClass = 'role-pharmacist';
+                else if (member.role === 'Inventory Manager') roleClass = 'role-inventory';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${member.id || `#STF-${1000 + index}`}</td>
+                    <td>${member.name}</td>
+                    <td><span class="role-badge ${roleClass}">${member.role}</span></td>
+                    <td>${member.email}</td>
+                    <td><span class="status-active">${member.status || 'Active'}</span></td>
+                    <td>
+                        <button class="btn-danger" onclick="deleteStaffMember(${index})">Remove</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openAddStaffModal() {
+            // Permission සීමාව ඉවත් කර ඇති බැවින් දැන් බාධාවකින් තොරව මෝඩල් එක විවෘත වේ
+            document.getElementById('addStaffModal').style.display = 'flex';
+        }
+
+        function closeAddStaffModal() {
+            document.getElementById('addStaffModal').style.display = 'none';
+        }
+
+        function addNewAdminBySuperAdmin(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('newAdminName').value.trim();
+            const email = document.getElementById('newAdminEmail').value.trim();
+            const password = document.getElementById('newAdminPassword').value.trim();
+            const role = document.getElementById('newAdminRole').value;
+
+            let staff = JSON.parse(localStorage.getItem('mediquick_staff')) || getInitialStaff();
+
+            const newMember = {
+                id: `#STF-${1000 + staff.length + 1}`,
+                name,
+                role,
+                email,
+                password,
+                status: 'Active'
+            };
+
+            staff.push(newMember);
+            localStorage.setItem('mediquick_staff', JSON.stringify(staff));
+
+            closeAddStaffModal();
+            document.getElementById('addStaffForm').reset();
+            loadStaffMembers();
+            alert('The new member was successfully added!');
+        }
+
+        function deleteStaffMember(index) {
+            if (confirm('Are you sure you want to remove this member?')) {
+                let staff = JSON.parse(localStorage.getItem('mediquick_staff')) || getInitialStaff();
+                staff.splice(index, 1);
+                localStorage.setItem('mediquick_staff', JSON.stringify(staff));
+                loadStaffMembers();
+            }
+        }
+
+        function adminLogout() {
+            localStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

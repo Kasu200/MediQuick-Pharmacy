@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - MediQuick</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Navigation Styles */
+        .main-header {
+            background-color: #0b1120;
+            border-bottom: 1px solid #1e293b;
+            padding: 12px 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .search-bar-small {
+            display: flex;
+            align-items: center;
+            background: #060b13;
+            border: 1px solid #1e293b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            width: 180px;
+        }
+
+        .search-bar-small input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .cart-icon-wrap {
+            color: inherit;
+            white-space: nowrap;
+        }
+
+        .btn-login, .btn-register {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        /* Order Confirmation Container */
+        .confirmation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 50px;
+            padding-bottom: 60px;
+        }
+
+        .confirmation-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 40px 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .success-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-card h1 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .order-status-text {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .order-info-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-confirmed {
+            color: #00e676;
+        }
+
+        .confirmation-note {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-secondary, .btn-primary {
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #0b1120;
+            border-top: 1px solid #1e293b;
+            padding: 40px 0 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-col ul li a:hover {
+            color: #38bdf8;
+        }
+
+        .footer-contact-group {
+            margin-bottom: 12px;
+        }
+
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#2563eb"/>
+                    <path d="M4 12h3.2l1.3-2.5 2 5 2.2-6 1.8 3.5h5.5" stroke="#060b13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>MediQuick</h2>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html">Consult Doctor</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-bar-small">
+                    <span class="search-icon" style="margin-right: 5px;">🔍</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <a href="cart.html" class="cart-icon-wrap">
+                    🛒 <span class="cart-badge">0</span>
+                </a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container confirmation-container">
+        <div class="confirmation-card">
+            <div class="success-icon">🎉</div>
+            <h1>Thank You for Your Order!</h1>
+            <p class="order-status-text">Your order has been placed successfully and is now being processed.</p>
+            
+            <div class="order-info-box">
+                <div class="info-row">
+                    <span>Order Number:</span>
+                    <strong id="orderIdDisplay">#MQ-84920</strong>
+                </div>
+                <div class="info-row">
+                    <span>Estimated Delivery:</span>
+                    <strong>Within 24 - 48 Hours</strong>
+                </div>
+                <div class="info-row">
+                    <span>Payment Status:</span>
+                    <strong class="status-confirmed">Confirmed</strong>
+                </div>
+            </div>
+
+            <p class="confirmation-note">A confirmation email with order details has been sent to your registered address.</p>
+
+            <div class="confirmation-actions">
+                <a href="index.html" class="btn-secondary">Return to Home</a>
+                <!-- Here, the alert has been removed and it is set to navigate to track-order.html -->
+                <button class="btn-primary" onclick="window.location.href='track-order.html'">Track Order</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>MediQuick</h3>
+                <p>Your trusted online pharmacy partner. Delivering health and happiness to your doorstep.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog.html">Health Blog</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="track-order.html">Order Tracking</a></li>
+                    <li><a href="returns.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact & Locations</h4>
+                <div class="footer-contact-group">
+                    <p><strong>Registered Office:</strong></p>
+                    <p>MediQuick Pharmacy (Pvt) Ltd<br>
+                    No. 45/1, Kandy Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <div class="footer-contact-group">
+                    <p><strong>Distribution Hub:</strong></p>
+                    <p>No. 78, Dambulla Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <ul class="footer-contact">
+                    <li><span>📞</span> 0752837456 / 087435345</li>
+                    <li><span>✉️</span> support@mediquick.com</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orders = JSON.parse(localStorage.getItem('mediquick_orders')) || [];
+            if (orders.length > 0) {
+                const latestOrder = orders[orders.length - 1];
+                const orderIdDisplay = document.getElementById('orderIdDisplay');
+                if (orderIdDisplay && latestOrder.orderId) {
+                    orderIdDisplay.textContent = latestOrder.orderId;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

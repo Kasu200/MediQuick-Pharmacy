@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consult Doctor - MediQuick</title>
+    
+    <style>
+        /* ==========================================
+           Global Reset & Styles
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            background-color: #0b1120;
+            border-bottom: 1px solid #1e293b;
+            padding: 16px 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .logo h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar-small {
+            background: #1e293b;
+            padding: 8px 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 220px;
+            border: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar-small:focus-within {
+            border-color: #38bdf8;
+        }
+
+        .search-bar-small input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+
+        .cart-icon-wrap {
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        .btn-login {
+            background: #ffffff;
+            color: #0f172a;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            background: #f1f5f9;
+        }
+
+        .btn-register {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Consultation Page Specific Styles */
+        .consult-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .consult-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .consult-header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .filter-card {
+            background: #111c33;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .filter-group select, .filter-group input {
+            background: #0d1527;
+            border: 1px solid #334155;
+            color: #ffffff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            border-color: #38bdf8;
+        }
+
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .doctor-card {
+            background: #111c33;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .doctor-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .doc-info {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .doc-avatar {
+            font-size: 2.5rem;
+            background: #1e293b;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .doc-info h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .doc-spec {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .doc-exp {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .doc-fee {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .slots-container {
+            border-top: 1px solid #1e293b;
+            padding-top: 12px;
+        }
+
+        .slots-container label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .slot-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .slot-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slot-btn:hover, .slot-btn.selected {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+
+        .btn-book-doc {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .btn-book-doc:hover {
+            background: #1d4ed8;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: #080d1a;
+            border-top: 1px solid #1e293b;
+            padding: 50px 0 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 2fr;
+            gap: 40px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .footer-col p {
+            color: #64748b;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #64748b;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-contact-group {
+            margin-bottom: 12px;
+        }
+
+        .footer-contact-group p {
+            font-size: 0.8rem;
+        }
+
+        .footer-contact {
+            margin-top: 10px;
+        }
+
+        .footer-contact li {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .filter-card {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#2563eb"/>
+                    <path d="M4 12h3.2l1.3-2.5 2 5 2.2-6 1.8 3.5h5.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>MediQuick</h2>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html" class="active">Consult Doctor</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-bar-small">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="headerDocSearch" placeholder="Search doctors...">
+                </div>
+                <a href="cart.html" class="cart-icon-wrap" style="text-decoration: none; color: inherit;">
+                    🛒 <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="consult-container container" style="padding-top: 40px; padding-bottom: 50px;">
+        <div class="consult-header">
+            <h1>Consult Top Doctors Online</h1>
+            <p>Connect with experienced specialists for online video consultations or channel appointments.</p>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filter-card">
+            <div class="filter-group">
+                <label>Specialty</label>
+                <select id="specialtyFilter">
+                    <option value="all">All Specialties</option>
+                    <option value="general">General Physician</option>
+                    <option value="cardio">Cardiologist</option>
+                    <option value="derma">Dermatologist</option>
+                    <option value="pediatric">Pediatrician</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Doctor Name</label>
+                <input type="text" id="doctorSearch" placeholder="Search by name...">
+            </div>
+        </div>
+
+        <!-- Doctor Cards Grid -->
+        <div class="doctors-grid" id="doctorsGrid">
+            <!-- Doctor Card 1 -->
+            <div class="doctor-card" data-specialty="general" data-name="dr. amal perera">
+                <div class="doc-info">
+                    <div class="doc-avatar">👨‍⚕️</div>
+                    <div>
+                        <h3>Dr. Amal Perera</h3>
+                        <p class="doc-spec">General Physician</p>
+                        <p class="doc-exp">12+ Years Experience</p>
+                        <span class="doc-fee">Rs. 2,500.00</span>
+                    </div>
+                </div>
+                <div class="slots-container">
+                    <label>Available Slots Today:</label>
+                    <div class="slot-buttons">
+                        <button class="slot-btn" onclick="selectSlot(this)">05:00 PM</button>
+                        <button class="slot-btn" onclick="selectSlot(this)">06:30 PM</button>
+                    </div>
+                </div>
+                <button class="btn-book-doc" onclick="bookDoctor('Dr. Amal Perera')">Book Appointment</button>
+            </div>
+
+            <!-- Doctor Card 2 -->
+            <div class="doctor-card" data-specialty="cardio" data-name="dr. nimesha silva">
+                <div class="doc-info">
+                    <div class="doc-avatar">👩‍⚕️</div>
+                    <div>
+                        <h3>Dr. Nimesha Silva</h3>
+                        <p class="doc-spec">Cardiologist</p>
+                        <p class="doc-exp">8+ Years Experience</p>
+                        <span class="doc-fee">Rs. 3,500.00</span>
+                    </div>
+                </div>
+                <div class="slots-container">
+                    <label>Available Slots Tomorrow:</label>
+                    <div class="slot-buttons">
+                        <button class="slot-btn" onclick="selectSlot(this)">10:00 AM</button>
+                        <button class="slot-btn" onclick="selectSlot(this)">02:00 PM</button>
+                    </div>
+                </div>
+                <button class="btn-book-doc" onclick="bookDoctor('Dr. Nimesha Silva')">Book Appointment</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>MediQuick</h3>
+                <p>Your trusted online pharmacy partner. Delivering health and happiness to your doorstep.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog.html">Health Blog</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="track-order.html">Order Tracking</a></li>
+                    <li><a href="returns.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact & Locations</h4>
+                <div class="footer-contact-group">
+                    <p><strong>Registered Office:</strong></p>
+                    <p>MediQuick Pharmacy (Pvt) Ltd<br>
+                    No. 45/1, Kandy Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <div class="footer-contact-group">
+                    <p><strong>Distribution Hub:</strong></p>
+                    <p>No. 78, Dambulla Road, Kurunegala 60000, Sri Lanka</p>
+                </div>
+                <ul class="footer-contact">
+                    <li><span>📞</span> 0752837456 / 087435345</li>
+                    <li><span>✉️</span> support@mediquick.com</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Internal JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cart badge count sync
+            const cartBadge = document.getElementById('cartBadge');
+            const cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+            if (cartBadge) {
+                cartBadge.textContent = totalQty;
+            }
+
+            // Filtering & Searching Logic
+            const specialtyFilter = document.getElementById('specialtyFilter');
+            const doctorSearch = document.getElementById('doctorSearch');
+            const doctorCards = document.querySelectorAll('.doctor-card');
+
+            function filterDoctors() {
+                const selectedSpecialty = specialtyFilter.value.toLowerCase();
+                const searchQuery = doctorSearch.value.toLowerCase().trim();
+
+                doctorCards.forEach(card => {
+                    const cardSpecialty = card.getAttribute('data-specialty');
+                    const cardName = card.getAttribute('data-name');
+
+                    const matchesSpecialty = (selectedSpecialty === 'all' || cardSpecialty === selectedSpecialty);
+                    const matchesSearch = cardName.includes(searchQuery);
+
+                    if (matchesSpecialty && matchesSearch) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            if (specialtyFilter) {
+                specialtyFilter.addEventListener('change', filterDoctors);
+            }
+            if (doctorSearch) {
+                doctorSearch.addEventListener('input', filterDoctors);
+            }
+        });
+
+        // Slot selection function
+        function selectSlot(button) {
+            const parentContainer = button.parentElement;
+            parentContainer.querySelectorAll('.slot-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            button.classList.add('selected');
+        }
+
+        // Book Appointment function
+        function bookDoctor(doctorName) {
+            alert(`Appointment booking initiated for ${doctorName}. Proceeding further...`);
+            //If you wish, you can save the booking details here and proceed to another page.
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MediQuick</title>
+    
+    <style>
+        /* ==========================================
+            Global Styles & Gradient Background
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            /* The exact same background style (gradient) as on the login page. */
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #cbd5e1 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Register Card Container */
+        .register-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+        }
+
+        .auth-card {
+            background: #0b132b;
+            padding: 40px 35px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .auth-subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        /* Input Fields with Icons */
+        .input-group {
+            position: relative;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group span {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            background: #ffffff;
+            color: #0f172a;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input::placeholder {
+            color: #64748b;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+        }
+
+        /* Register Button */
+        .auth-btn {
+            background: #2563eb;
+            color: #ffffff;
+            padding: 14px;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background 0.2s;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .auth-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Switch to Login */
+        .auth-switch {
+            margin-top: 22px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .auth-switch a {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bottom Footer Links */
+        .simple-footer {
+            display: flex;
+            gap: 25px;
+            font-size: 0.8rem;
+            color: #475569;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .simple-footer a {
+            color: #475569;
+            transition: color 0.2s;
+        }
+
+        .simple-footer a:hover {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Register Container -->
+    <div class="register-wrapper">
+        <div class="auth-card">
+            <h2>Create an Account</h2>
+            <p class="auth-subtitle">Join MediQuick for faster checkout</p>
+
+            <form id="registerForm">
+                <div class="input-group">
+                    <span>👤</span>
+                    <input type="text" id="regName" placeholder="Full Name" required>
+                </div>
+
+                <div class="input-group">
+                    <span>📞</span>
+                    <input type="tel" id="regPhone" placeholder="Phone Number (e.g. 0712345678)" required>
+                </div>
+
+                <div class="input-group">
+                    <span>✉️</span>
+                    <input type="email" id="regEmail" placeholder="Email Address" required>
+                </div>
+
+                <div class="input-group">
+                    <span>🔒</span>
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="auth-btn">Register</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="login.html">Log In</a></p>
+        </div>
+    </div>
+
+    <!-- Bottom Footer Links -->
+    <div class="simple-footer">
+        <span>© 2026 MediQuick Healthcare Inc.</span>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="help.html">Help Center</a>
+    </div>
+
+    <!-- JavaScript for Handling Registration & Saving to LocalStorage -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerForm = document.getElementById('registerForm');
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('regName').value.trim();
+                    const phone = document.getElementById('regPhone').value.trim();
+                    const email = document.getElementById('regEmail').value.trim();
+                    const password = document.getElementById('regPassword').value;
+
+                    // New User Object
+                    const newUser = {
+                        name: name,
+                        phone: phone,
+                        email: email,
+                        password: password
+                    };
+
+                    // Retrieving the list of existing users from LocalStorage
+                    let users = JSON.parse(localStorage.getItem('mediquick_users')) || [];
+
+                    // Checking if an account has already been created with this email or phone number.
+                    const existingUser = users.find(user => user.email === email || user.phone === phone);
+
+                    if (existingUser) {
+                        alert('An account is already registered with this email address or phone number. Please log in.');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+
+                    // Adding the new user to the list and saving it to LocalStorage.
+                    users.push(newUser);
+                    localStorage.setItem('mediquick_users', JSON.stringify(users));
+
+                    alert('Registration successful! You can now log in.');
+                    window.location.href = 'login.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - MediQuick Admin</title>
+    <style>
+        /* ==========================================
+            Admin Inventory Global & Layout Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body.admin-body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            width: 260px;
+            background-color: #0b0f19;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            padding: 25px 20px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-brand span {
+            color: #38bdf8;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 15px 10px;
+        }
+
+        .admin-nav li {
+            margin-bottom: 5px;
+        }
+
+        .admin-nav a {
+            display: block;
+            padding: 12px 15px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover, .admin-nav a.active {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+
+        .admin-logout {
+            padding: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .admin-logout a {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content Area */
+        .admin-main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+            background-color: #0d1527;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #2563eb;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-action {
+            background: #334155;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: #475569;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Table Card */
+        .admin-card {
+            background: #1e293b;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #334155;
+            font-size: 0.9rem;
+        }
+
+        .admin-table th {
+            background-color: #0f172a;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            color: #94a3b8;
+        }
+
+        .product-img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #334155;
+        }
+
+        .badge-active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            padding: 30px;
+            border-radius: 12px;
+            width: 450px;
+            max-width: 90%;
+            color: #fff;
+            border: 1px solid #1e293b;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 5px;
+        }
+
+        .admin-input:focus {
+            border-color: #38bdf8;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Admin Sidebar (Updated to match the dashboard.) -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h2>MediQuick <span>Admin</span></h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin-dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="admin-orders.html">📦 Orders</a></li>
+                    <li><a href="admin-inventory.html" class="active">💊 Inventory</a></li>
+                    <li><a href="admin-prescriptions.html">📄 Prescriptions</a></li>
+                    <li><a href="admin-consultations.html">🩺 Doctor Consultations</a></li>
+                    <li><a href="admin-customers.html">👥 Customers</a></li>
+                    <li><a href="admin-staff.html">👨‍⚕️ Staff</a></li>
+                    <li><a href="admin-settings.html">⚙️ Settings</a></li>
+                </ul>
+            </nav>
+            <div class="admin-logout">
+                <a href="login.html">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Inventory Management</h1>
+                <button class="btn-primary" id="btnOpenAddModal">+ Add New Product</button>
+            </header>
+
+            <!-- Inventory Table -->
+            <div class="admin-card">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Product Title</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminInventoryTableBody">
+                        <!-- Loaded dynamically via script -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding New Product -->
+    <div id="addProductModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Add New Product</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="addTitle" class="admin-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (Rs.)</label>
+                    <input type="number" step="0.01" id="addPrice" class="admin-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="addCategory" class="admin-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Select Product Image</label>
+                    <input type="file" id="addImageFile" accept="image/*" class="admin-input" style="background:#1e293b; padding:8px;" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="addDescription" class="admin-input" style="height:80px; resize:vertical;" placeholder="Enter product details..." required></textarea>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                    <button type="button" id="btnCloseModal" class="btn-action">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Inventory Operations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInventoryProducts();
+
+            const modal = document.getElementById('addProductModal');
+            const btnOpen = document.getElementById('btnOpenAddModal');
+            const btnClose = document.getElementById('btnCloseModal');
+            const form = document.getElementById('addProductForm');
+
+            // Open Modal
+            btnOpen.addEventListener('click', () => {
+                modal.style.display = 'flex';
+            });
+
+            // Close Modal
+            btnClose.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Form Submit & Save to LocalStorage
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const title = document.getElementById('addTitle').value.trim();
+                const price = parseFloat(document.getElementById('addPrice').value);
+                const category = document.getElementById('addCategory').value.trim();
+                const description = document.getElementById('addDescription').value.trim();
+                const imageFile = document.getElementById('addImageFile').files[0];
+
+                if (imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const base64Image = event.target.result;
+
+                        let products = JSON.parse(localStorage.getItem('mediquick_products')) || [];
+                        const newProduct = {
+                            id: 'PRD-' + (1001 + products.length),
+                            title,
+                            price,
+                            category,
+                            description,
+                            image: base64Image,
+                            status: 'Active'
+                        };
+
+                        products.push(newProduct);
+                        localStorage.setItem('mediquick_products', JSON.stringify(products));
+
+                        modal.style.display = 'none';
+                        form.reset();
+                        loadInventoryProducts();
+                        alert('නThe product was successfully added.!');
+                    };
+                    reader.readAsDataURL(imageFile);
+                }
+            });
+        });
+
+        function loadInventoryProducts() {
+            const products = JSON.parse(localStorage.getItem('mediquick_products')) || [];
+            const tbody = document.getElementById('adminInventoryTableBody');
+            tbody.innerHTML = '';
+
+            if (products.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="no-data">No products have been added yet.</td></tr>`;
+                return;
+            }
+
+            products.forEach((product, index) => {
+                const row = document.createElement('tr');
+                const imgSrc = product.image || 'https://via.placeholder.com/45';
+                
+                row.innerHTML = `
+                    <td>${product.id || '#PRD-' + (1001 + index)}</td>
+                    <td><img src="${imgSrc}" class="product-img" alt="Product"></td>
+                    <td>${product.title}</td>
+                    <td>${product.category}</td>
+                    <td>LKR ${parseFloat(product.price).toFixed(2)}</td>
+                    <td><span class="badge-active">${product.status || 'Active'}</span></td>
+                    <td><button class="btn-delete" onclick="deleteProduct(${index})">Delete</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteProduct(index) {
+            if (confirm('Are you sure you want to delete this product??')) {
+                let products = JSON.parse(localStorage.getItem('mediquick_products')) || [];
+                products.splice(index, 1);
+                localStorage.setItem('mediquick_products', JSON.stringify(products));
+                loadInventoryProducts();
+            }
+        }
+    </script>
+</body>
+</html>

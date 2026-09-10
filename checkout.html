@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediQuick - Checkout</title>
+    
+    <style>
+        /* ==========================================
+            Global Reset & Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #0b0f19;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            color: #fff;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #38bdf8;
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #1e293b;
+            border-radius: 12px;
+            color: #fff;
+            border: 1px solid #334155;
+        }
+
+        .checkout-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #38bdf8;
+        }
+
+        .place-order-btn {
+            background: #00e676;
+            color: #000;
+            padding: 14px;
+            border: none;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .place-order-btn:hover {
+            background: #00c853;
+        }
+
+        .order-summary-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .checkout-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1 class="logo">MediQuick</h1>
+            <ul class="nav-links">
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="checkout-container">
+        <h2>Checkout Details</h2>
+        
+        <div class="order-summary-box">
+            <h4 style="margin-top:0; color:#fff;">Order Summary</h4>
+            <div id="checkout-items-summary" style="color:#cbd5e1; font-size:14px;">No items in cart.</div>
+            <hr style="border-color:#334155; margin:10px 0;">
+            <div style="font-weight:bold; color:#00e676;">Total: LKR <span id="checkout-total-price">0.00</span></div>
+        </div>
+
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required placeholder="07X XXXXXXX">
+            </div>
+            <div class="form-group">
+                <label for="address">Delivery Address</label>
+                <textarea id="address" rows="4" required placeholder="Your Address"></textarea>
+            </div>
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+    </main>
+
+    <!-- Internal JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieving cart data from LocalStorage and displaying the order summary.
+            const cart = JSON.parse(localStorage.getItem('mediquick_cart')) || [];
+            const itemsSummaryContainer = document.getElementById('checkout-items-summary');
+            const totalPriceSpan = document.getElementById('checkout-total-price');
+
+            let totalAmount = 0;
+
+            if (cart.length > 0) {
+                let summaryHTML = '<ul style="list-style: none; padding: 0;">';
+                cart.forEach(item => {
+                    const itemTotal = (item.price || 0) * (item.qty || 1);
+                    totalAmount += itemTotal;
+                    summaryHTML += `<li style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                        <span>${item.name} (x${item.qty || 1})</span>
+                        <span>LKR ${itemTotal.toFixed(2)}</span>
+                    </li>`;
+                });
+                summaryHTML += '</ul>';
+                itemsSummaryContainer.innerHTML = summaryHTML;
+            } else {
+                itemsSummaryContainer.innerHTML = 'Your cart is empty.';
+            }
+
+            totalPriceSpan.textContent = totalAmount.toFixed(2);
+
+            // The section that executes upon form submission.
+            const checkoutForm = document.getElementById('checkout-form');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    if (cart.length === 0) {
+                        alert('Your cart is empty. Please add items and try again.');
+                        return;
+                    }
+
+                    const name = document.getElementById('name').value;
+                    const phone = document.getElementById('phone').value;
+                    const address = document.getElementById('address').value;
+
+                    // Preparing order details
+                    const orderDetails = {
+                        orderId: 'MQ-' + Math.floor(100000 + Math.random() * 900000),
+                        customerName: name,
+                        phone: phone,
+                        address: address,
+                        items: cart,
+                        total: totalAmount,
+                        date: new Date().toLocaleString()
+                    };
+
+                    // Saving order details in LocalStorage
+                    let orders = JSON.parse(localStorage.getItem('mediquick_orders')) || [];
+                    orders.push(orderDetails);
+                    localStorage.setItem('mediquick_orders', JSON.stringify(orders));
+
+                    // Unloading the cart
+                    localStorage.removeItem('mediquick_cart');
+
+                    // Redirecting to the order-confirmation.html page after a successful order.
+                    window.location.href = 'order-confirmation.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

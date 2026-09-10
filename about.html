@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MediQuick</title>
+    <style>
+        /* ==========================================
+            About Us Global & Layout Styles
+            ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0d1527;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            background-color: #0b0f19;
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .logo h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .logo h2 span {
+            color: #38bdf8;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #38bdf8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-bar-small {
+            display: flex;
+            align-items: center;
+            background: #060b13;
+            border: 1px solid #1e293b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            width: 180px;
+        }
+
+        .search-bar-small input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .cart-icon-wrap {
+            background: #1e293b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid #334155;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .btn-register {
+            background: #2563eb;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Page Title Banner */
+        .page-title-banner {
+            background: linear-gradient(135deg, #0b0f19 0%, #1e293b 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .page-title-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .page-title-banner p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .about-section {
+            padding: 60px 20px;
+            flex: 1;
+        }
+
+        .about-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+        }
+
+        .about-text h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .about-text h3 {
+            font-size: 1.3rem;
+            color: #38bdf8;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            color: #94a3b8;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .about-list li {
+            color: #cbd5e1;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #0b0f19;
+            border-top: 1px solid #1e293b;
+            padding: 50px 20px 20px;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-col h3, .footer-col h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .footer-col p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #38bdf8;
+        }
+
+        .footer-contact {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .footer-contact li {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-contact-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation[cite: 9] -->
+    <header class="main-header">
+        <div class="container navbar">
+            
+            <!-- Logo Section[cite: 9] -->
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px;">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#2563eb"/>
+                    <path d="M4 12h3.2l1.3-2.5 2 5 2.2-6 1.8 3.5h5.5" stroke="#060b13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>MediQuick <span>Admin</span></h2>
+            </a>
+
+            <!-- Nav Links Section[cite: 9] -->
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html" class="active">About Us</a></li>
+                    <li><a href="prescriptions.html">Prescriptions</a></li>
+                    <li><a href="consultation.html">Consult Doctor</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Actions Section[cite: 9] -->
+            <div class="header-actions">
+                <div class="search-bar-small">
+                    <span class="search-icon" style="margin-right: 5px;">🔍</span>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <a href="cart.html" class="cart-icon-wrap">
+                    🛒 <span class="cart-badge">0</span>
+                </a>
+                <a href="login.html" class="btn-login">Login</a>
+                <a href="register.html" class="btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title Banner[cite: 9] -->
+    <section class="page-title-banner">
+        <div class="container">
+            <h1>About MediQuick</h1>
+            <p>Your Trusted Digital Pharmacy & Healthcare Partner</p>
+        </div>
+    </section>
+
+    <!-- Main Content[cite: 9] -->
+    <section class="about-section container">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>MediQuick is a modern online pharmacy dedicated to providing fast, reliable, and genuine healthcare products right to your doorstep. Our goal is to make healthcare accessible, affordable, and stress-free for everyone[cite: 9].</p>
+                
+                <h3>Our Mission</h3>
+                <p>To revolutionize medicine delivery with speed, compliance, and compassionate customer service through modern digital technology[cite: 9].</p>
+
+                <h3>Why Choose Us?</h3>
+                <ul class="about-list">
+                    <li>✔️ 100% Genuine Prescription & OTC Medicines</li>
+                    <li>✔️ Verified Pharmacists Reviewing Prescriptions</li>
+                    <li>✔️ Fast & Secure Doorstep Delivery</li>
+                    <li>✔️ Safe Payment Methods & Privacy Protected</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer[cite: 9] -->
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>MediQuick</h3>
+                <p>Your trusted online pharmacy partner. Delivering health and happiness to your doorstep[cite: 9].</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="blog.html">Health Blog</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="track-order.html">Order Tracking</a></li>
+                    <li><a href="returns.html">Returns & Refunds</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="help.html">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact & Locations</h4>
+                <div class="footer-contact-group">
+                    <p><strong>Registered Office:</strong></p>
+                    <p>MediQuick Pharmacy (Pvt) Ltd<br>
+                    No. 45/1, Kandy Road, Kurunegala 60000, Sri Lanka[cite: 9]</p>
+                </div>
+                <div class="footer-contact-group">
+                    <p><strong>Distribution Hub:</strong></p>
+                    <p>No. 78, Dambulla Road, Kurunegala 60000, Sri Lanka[cite: 9]</p>
+                </div>
+                <ul class="footer-contact">
+                    <li><span>📞</span> 0752837456 / 087435345[cite: 9]</li>
+                    <li><span>✉️</span> support@mediquick.com[cite: 9]</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
